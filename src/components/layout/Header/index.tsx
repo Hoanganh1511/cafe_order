@@ -7,8 +7,10 @@ import { FaCreditCard } from "react-icons/fa6";
 import { IoHome } from "react-icons/io5";
 import CoreModal from "@/components/modal/CoreModal";
 import { getDataSession, LOCAL_STORAGE } from "@/lib/helpers/session";
+import { useCart } from "@/providers/CartProvider";
 
 const Header = () => {
+  const { cartItems } = useCart();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [cartAmountStorage, setCartAmountStorage] = useState(0);
   const cart = getDataSession(LOCAL_STORAGE, "cart") || [];
@@ -22,7 +24,7 @@ const Header = () => {
           <p className="text-center">Hello from the modal!</p>
           <ul>
             {cart &&
-              cart.map((item, idx) => {
+              cart.map((item: any, idx: number) => {
                 return <li key={idx} className=""></li>;
               })}
           </ul>
@@ -67,9 +69,9 @@ const Header = () => {
             <div className="text-[20px] flex items-center">
               <div className="relative">
                 <IoMdCart className="mr-[12px] text-orange-600 text-[30px]" />
-                {cart?.length > 0 && (
+                {cartItems?.length > 0 && (
                   <span className="absolute size-[18px] top-[-10px] right-[2px] text-[12px] text-white bg-red-500 flex items-center justify-center rounded-full">
-                    {cart?.length}
+                    {cartItems?.length}
                   </span>
                 )}
               </div>

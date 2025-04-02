@@ -3,6 +3,7 @@ import { DM_Sans, Prompt } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/components/layout/MainLayout";
 import { Toaster, toast } from "sonner";
+import AppProviders from "@/providers/AppProviders";
 const geistMono = DM_Sans({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -26,8 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistMono.className} ${promt.variable}`}>
-        <Toaster richColors position="top-center" />
-        <MainLayout>{children}</MainLayout>
+        <AppProviders>
+          <Toaster richColors position="top-center" />
+          <MainLayout>{children}</MainLayout>
+        </AppProviders>
       </body>
     </html>
   );

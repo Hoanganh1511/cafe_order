@@ -9,15 +9,19 @@ import {
   LOCAL_STORAGE,
   setDataSession,
 } from "@/lib/helpers/session";
+import { useCart } from "@/providers/CartProvider";
+import { Product } from "@/types";
 const Card = ({
   item,
   idx,
   className,
 }: {
-  item: any;
+  item: Product;
   idx: number;
   className?: string;
 }) => {
+  const { addToCart } = useCart();
+
   const [amount, setAmount] = useState(1);
   const maxAmount = 10;
   const minAmount = 0;
@@ -76,25 +80,7 @@ const Card = ({
   //     </div>
   //   );
   // }
-  const addToCart = (id: number, name: string, amount_count: number) => {
-    const cart = getDataSession(LOCAL_STORAGE, "cart") || [];
-    const existingProductIndex = cart.findIndex((item: any) => item.id === id);
 
-    if (existingProductIndex > -1) {
-      // Nếu sản phẩm đã có trong giỏ, tăng số lượng lên
-      cart[existingProductIndex].quantity += amount_count;
-    } else {
-      // Nếu sản phẩm chưa có trong giỏ, thêm sản phẩm mới vào giỏ
-      cart.push({
-        id: id,
-        name: name,
-        quantity: amount_count,
-      });
-    }
-    setDataSession(LOCAL_STORAGE, "cart", cart);
-    setAmount(1);
-    toast.success(`${item.title} x ${amount} được thêm vào giỏ hàng !`);
-  };
   return (
     <div className={cn(`relative  w-full p-[12px]  rounded-[35px]`, className)}>
       <div className="flex justify-center">
@@ -132,7 +118,7 @@ const Card = ({
           </div>
         </div>
         <button
-          onClick={() => addToCart(idx, item.title, amount)}
+          onClick={() => addToCart(item)}
           className="mt-[12px]  relative flex items-center justify-center py-[12px] font-medium text-white bg-[#AF8F6F] hover:bg-[#74512D] duration-200 rounded-[25px]"
         >
           Thêm vào giỏ
